@@ -1,16 +1,16 @@
 # 第三回課題
 * **APサーバー**について  
   * APサーバーの名前　**PUMA**　version **5.6.5**  
-![puma.png](img/puma.png)
+![puma.png](IMG/puma.png)
   * APサーバーを終了させた場合はアクセスできずエラー表示　
-![ctrl+c.png](img/ctrl+c.png)
+![ctrl+c.png](IMG/ctrl+c.png)
   * APサーバーの再起動を行い再アクセス可能
-![app.png](img/app.png)
+![app.png](IMG/app.png)
 
 * **DBサーバー**について
   * DBサーバーの名前 **MySQL** version **8.0.35**
   * DBサーバー停止命令後のエラー表示  
-！[Mysql.png](img/Mysql.png)
+！[Mysql.png](IMG/Mysql.png)
 * Rails構成管理ツール**bundler**
 
 # 感想
