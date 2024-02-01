@@ -24,4 +24,6 @@
 　![S3](IMG/lecture5/s3.png)  
 ## S3を反映しデプロイ メロンを追加 
   ![S3](IMG/S3.on.png)  
+## 構成図の作成  
+　![S3](IMG/AWS.png)
  
