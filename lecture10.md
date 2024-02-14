@@ -5,7 +5,7 @@
 * 全自動と半自動  
 * 自動化の範囲  
 * Cloudformation  
-* CloudFormation テンプレートの解説  
+* CloudFormationテンプレートの解説  
 ## 課題内容  
 * CloudFormationを利用して現在まで作った環境をコード化する  
 
