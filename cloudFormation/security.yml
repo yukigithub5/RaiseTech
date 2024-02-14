@@ -1,0 +1,78 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: CloudFormation Security Group
+
+Resources:
+#------------------------------------------------------------#
+#EC2 securitygroup                                           #
+#------------------------------------------------------------#
+    EC2SecurityGroup:
+        Type: AWS::EC2::SecurityGroup
+        Properties:
+            GroupDescription: Enable SSH port22 HTTP port80
+            SecurityGroupIngress:
+                - IpProtocol: tcp
+                  FromPort: 22
+                  ToPort: 22
+                  CidrIp: 126.206.114.63/32 
+                  
+                - IpProtocol: tcp
+                  FromPort: 80
+                  ToPort: 80
+                  CidrIp: 0.0.0.0/0
+            Tags:
+             - Key: Name
+               Value: EC2securityGroup
+            VpcId: !ImportValue MyVPC-ID
+#------------------------------------------------------------#
+#RDS securitygroup                                           #
+#------------------------------------------------------------#
+    RDSSecurityGroup:
+       Type: AWS::EC2::SecurityGroup
+       Properties:
+         GroupDescription: RDS for EC2
+         SecurityGroupIngress:
+            - IpProtocol: tcp
+              FromPort: 3306
+              ToPort: 3306
+              SourceSecurityGroupId: !Ref EC2SecurityGroup
+         Tags:
+          - Key: Name
+            Value: RDSSecurityGroup
+         VpcId: !ImportValue MyVPC-ID
+#------------------------------------------------------------#
+#ALB securitygroup                                           #
+#------------------------------------------------------------#
+    ALBSecurityGroup:
+       Type: AWS::EC2::SecurityGroup
+       Properties:
+         GroupDescription: ALB for EC2
+         SecurityGroupIngress:
+            - IpProtocol: tcp
+              FromPort: 80
+              ToPort: 80
+              CidrIp: 0.0.0.0/0
+         Tags:
+          - Key: Name
+            Value: ALBSecurityGroup
+         VpcId: !ImportValue MyVPC-ID
+#------------------------------------------------------------#
+#Ouyputs                                                     #
+#------------------------------------------------------------#
+Outputs:
+  EC2SecurityGroup:
+    Description: EC2SecurityGroupID
+    Value: !Ref EC2SecurityGroup
+    Export:
+      Name: EC2SecurityGroup-ID
+
+  CFSecurityGroupRDS:
+    Description: RDSSecurityGroupID  
+    Value: !Ref RDSSecurityGroup
+    Export:
+      Name: RDSSecurityGroup-ID
+
+  ALBSecurityGroup:
+    Description: ALBSecurityGroupID
+    Value: !Ref ALBSecurityGroup
+    Export:
+      Name: ALBSecurityGroup-ID

@@ -1,0 +1,49 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: CloudFormation for ALB
+
+Resources:
+# --------------------------------------------- #
+# ALBsetup                                      #
+#-----------------------------------------------#
+  MyALB:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Type: application
+      Name: CLoudformationALB
+      Scheme: internet-facing 
+      IpAddressType: ipv4
+      SecurityGroups:
+        - !ImportValue ALBSecurityGroup-ID
+      Subnets:
+        - !ImportValue PublicSubnet1-ID
+        - !ImportValue PublicSubnet2-ID
+      Tags:
+        - Key: Name
+          Value: CloudFormationALB
+# --------------------------------------------- #
+# ListenerHTTP                                  #
+#-----------------------------------------------#
+  MyALBListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn:
+            !Ref MyALBTargetGroup
+      LoadBalancerArn: !Ref MyALB
+      Port: 80
+      Protocol: HTTP
+# --------------------------------------------- #
+# Tagetgroup                                    #
+#-----------------------------------------------#
+  MyALBTargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: CloudformationTargetGroup
+      Port: 80
+      Protocol: HTTP
+      Targets:
+        - Id: !ImportValue MyEC2-ID
+          Port: 80
+      TargetType: instance
+      VpcId: !ImportValue MyVPC-ID

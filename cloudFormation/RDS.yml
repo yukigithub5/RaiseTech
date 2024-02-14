@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: cloud Formation RDS
+Resources:
+#---------------------------------------------------#
+#Subnet                                             #
+#---------------------------------------------------#
+  MyRDSSubnet:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: CloudFormetion-RDS-DB-Subnet
+      DBSubnetGroupName: CFN-RDS-Subnet
+      SubnetIds:
+      - !ImportValue PrivateSubnet1-ID
+      - !ImportValue PrivateSubnet2-ID
+      Tags:
+      -
+        Key: "Name"
+        Value: MyRDSSubnet
+
+#---------------------------------------------------#
+#RDSinstans                                         #
+#---------------------------------------------------#
+  MyRDS:
+    Type: "AWS::RDS::DBInstance"
+    Properties:
+      DBInstanceIdentifier: CloudFormationRDS
+      DBInstanceClass: "db.t3.micro"
+      Engine: "mysql"
+      EngineVersion: "8.0.35"
+      MasterUsername: "admin"
+      MasterUserPassword: "******"
+      DBName: "utrds"
+      BackupRetentionPeriod: 0
+      MultiAZ: false
+      PubliclyAccessible: false
+      StorageType: "gp2"
+      AllocatedStorage: 20
+      DeleteAutomatedBackups: false
+      DBSubnetGroupName: !Ref MyRDSSubnet
+      VPCSecurityGroups:
+      - !ImportValue RDSSecurityGroup-ID
+      Tags:
+      -
+        Key: Name
+        Value: MyRDS
