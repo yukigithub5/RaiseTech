@@ -12,17 +12,17 @@
  | Stacks | リソース | Export情報 |
  | --- | --- | --- |
  | CloudFormationVPC | VPC | VPC-ID |
- | | PublicSubnet1 | PublicSubnet1ーID |
- | | PublicSubnet2 | PublicSubnet2ーID |
- | | PrivateSubnet1 | PrivateSubnet1ーID |
- | | PrivateSubnet2 | PrivateSubnet2ーID |
+ | | PublicSubnet1 | PublicSubnet1-ID |
+ | | PublicSubnet2 | PublicSubnet2-ID |
+ | | PrivateSubnet1 | PrivateSubnet1-ID |
+ | | PrivateSubnet2 | PrivateSubnet2-ID |
  | | IGW | |
- | | RouteTable | |
+ | | RouteTable |  |
  | | Route | |
  | | VPCENDpoint | MyVPCENDpoint‐ID |
- | CloudFormationSecurityGroup | EC2securityGroup | EC2securityGroupーID |
- | | RDSsecurityGroup | RDSsecurityGroupーID |
- | | ALBsecurityGroup | ALBsecurityGroupーID |
+ | CloudFormationSecurityGroup | EC2securityGroup | EC2securityGroup-ID |
+ | | RDSsecurityGroup | RDSsecurityGroup-ID |
+ | | ALBsecurityGroup | ALBsecurityGroup-ID |
  | CloudFormationIAMRole | IAMRole | S3AccessInstanceProfile-ID |
  | | Instanceprofile | |
  | CloudFormationEC2 | EC2Instance | MyEC2-ID |
