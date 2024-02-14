@@ -19,7 +19,7 @@ Resources:
         RestrictPublicBuckets: true
       
 #-----------------------------------------------#
-#Outputs                                             #
+#Outputs                                        #
 #-----------------------------------------------#
 Outputs:
  S3bucketID:

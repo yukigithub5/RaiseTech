@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: cloud Formation VPC
+Description: cloudFormation VPC
 Resources:
 # ----------------------------------------------------------#
 # VPC
@@ -11,7 +11,7 @@ Resources:
       InstanceTenancy: default
       Tags:
         - Key: Name
-          Value: CloudformetionVPC
+          Value: CloudformationVPC
 # ----------------------------------------------------------#
 # publicsubnet1
 # ----------------------------------------------------------#

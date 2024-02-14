@@ -28,7 +28,8 @@ Resources:
       UserData: !Base64 |
         #!/bin/bash
         sudo yum install -y git
-        sudo yum update
+        sudo yum install http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm -y
+        sudo yum install nginx -y
       Tags:
         - Key: Name
           Value: MyEC2

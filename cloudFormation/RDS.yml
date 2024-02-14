@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: cloud Formation RDS
+Description: cloudFormation RDS
 Resources:
 #---------------------------------------------------#
 #Subnet                                             #
@@ -7,7 +7,7 @@ Resources:
   MyRDSSubnet:
     Type: AWS::RDS::DBSubnetGroup
     Properties:
-      DBSubnetGroupDescription: CloudFormetion-RDS-DB-Subnet
+      DBSubnetGroupDescription: CloudFormation-RDS-DB-Subnet
       DBSubnetGroupName: CFN-RDS-Subnet
       SubnetIds:
       - !ImportValue PrivateSubnet1-ID
@@ -18,7 +18,7 @@ Resources:
         Value: MyRDSSubnet
 
 #---------------------------------------------------#
-#RDSinstans                                         #
+#RDSinstance                                        #
 #---------------------------------------------------#
   MyRDS:
     Type: "AWS::RDS::DBInstance"
@@ -28,8 +28,8 @@ Resources:
       Engine: "mysql"
       EngineVersion: "8.0.35"
       MasterUsername: "admin"
-      MasterUserPassword: "******"
-      DBName: "utrds"
+      MasterUserPassword: "Nb19900514"
+      DBName: "cfnrds"
       BackupRetentionPeriod: 0
       MultiAZ: false
       PubliclyAccessible: false
