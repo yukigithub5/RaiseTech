@@ -1,0 +1,46 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: CloudFormation EC2 
+
+Resources:
+#----------------------------------------#
+#KeyPair                                 #
+#----------------------------------------#
+  NewKeyPair:
+    Type: AWS::EC2::KeyPair
+    Properties:
+      KeyName: cloudformationKeypair
+
+#----------------------------------------#
+#EC2                                     #
+#----------------------------------------#
+  MyEC2:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-0556b98d8e7a269f1
+      IamInstanceProfile: !ImportValue S3AccessInstanceProfile-ID
+      NetworkInterfaces:
+        - AssociatePublicIpAddress: true 
+          SubnetId: !ImportValue PublicSubnet1-ID
+          GroupSet:
+            - !ImportValue EC2SecurityGroup-ID
+          DeviceIndex: 0
+      UserData: !Base64 |
+        #!/bin/bash
+        sudo yum install -y git
+        sudo yum install http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm -y
+        sudo yum install nginx -y
+      Tags:
+        - Key: Name
+          Value: MyEC2
+      KeyName: !Ref NewKeyPair
+
+#----------------------------------------#
+#Outputs                                 #
+#----------------------------------------#
+Outputs:
+  MyEC2:
+    Description: EC2ID
+    Value: !Ref MyEC2 
+    Export:
+      Name: MyEC2-ID

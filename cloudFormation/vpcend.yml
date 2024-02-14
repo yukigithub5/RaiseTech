@@ -1,0 +1,191 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: cloudFormation VPC
+Resources:
+# ----------------------------------------------------------#
+# VPC
+# ----------------------------------------------------------#
+  MyVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      InstanceTenancy: default
+      Tags:
+        - Key: Name
+          Value: CloudformationVPC
+# ----------------------------------------------------------#
+# publicsubnet1
+# ----------------------------------------------------------#
+
+  PublicSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.0.0/24
+      VpcId: !Ref MyVPC
+      AvailabilityZone: ap-northeast-1a 
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: PublicSubnet1
+
+# ----------------------------------------------------------#
+# publicsubnet2
+# ----------------------------------------------------------#
+
+  PublicSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.1.0/24
+      VpcId: !Ref MyVPC
+      AvailabilityZone: ap-northeast-1c
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: PublicSubnet2
+# ----------------------------------------------------------#
+# privatesubnet1
+# ----------------------------------------------------------#
+
+  PrivateSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.2.0/24
+      VpcId: !Ref MyVPC
+      AvailabilityZone: ap-northeast-1a
+      Tags:
+        - Key: Name
+          Value: PrivateSubnet1
+
+# ----------------------------------------------------------#
+# praivatesubnet2
+# ----------------------------------------------------------#
+
+  PrivateSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.3.0/24
+      VpcId: !Ref MyVPC
+      AvailabilityZone: ap-northeast-1c
+      Tags:
+        - Key: Name
+          Value: PrivateSubnet2
+# ----------------------------------------------------------#
+# InternetGateway
+# ----------------------------------------------------------#
+
+  MyVPCIGW:
+    Type: AWS::EC2::InternetGateway
+    Properties: 
+      Tags:
+        - Key: Name
+          Value: InternetGateway
+
+  MyVPCIGWAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties: 
+      InternetGatewayId: !Ref MyVPCIGW
+      VpcId: !Ref MyVPC
+
+# ----------------------------------------------------------#
+# Routetable
+# ----------------------------------------------------------#
+
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref MyVPC
+      Tags:
+        - Key: Name
+          Value: Public Route
+
+  PublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: MyVPCIGW
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref MyVPCIGW
+
+  PrivateSubnetroute1:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref MyVPC
+      Tags:
+        - Key: Name
+          Value: privateroute1a
+
+  PrivateSubnetroute2:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref MyVPC
+      Tags:
+        - Key: Name
+          Value: privateroute1c
+
+
+  PublicSubnet1Association:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnet1
+      RouteTableId: !Ref PublicRouteTable
+
+  PublicSubnet2Association:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnet2
+      RouteTableId: !Ref PublicRouteTable
+
+  PrivateSubnet1Association:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateSubnet1
+      RouteTableId: !Ref PrivateSubnetroute1
+
+  PrivateSubnet2Association:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateSubnet2
+      RouteTableId: !Ref PrivateSubnetroute2
+# ------------------------------------------------------------#
+#  VPCS3Endpoint
+# ------------------------------------------------------------#
+  MyVPCS3Endpoint:
+    Type: "AWS::EC2::VPCEndpoint"
+    Properties:
+      RouteTableIds: 
+        - !Ref PrivateSubnetroute1
+        - !Ref PrivateSubnetroute2
+      ServiceName: !Sub "com.amazonaws.${AWS::Region}.s3"
+      VpcId: !Ref MyVPC
+# ----------------------------------------------------------#
+# outputs
+# ----------------------------------------------------------#
+Outputs:
+  MyVPCID:
+    Value: !Ref MyVPC
+    Export:
+      Name: MyVPC-ID
+
+  PublicSubnet1ID:
+    Value: !Ref PublicSubnet1
+    Export:
+      Name: PublicSubnet1-ID
+
+  PublicSubnet2ID:
+    Value: !Ref PublicSubnet2
+    Export:
+      Name: PublicSubnet2-ID
+
+  PrivateSubnet1ID:
+    Value: !Ref PrivateSubnet1
+    Export:
+      Name: PrivateSubnet1-ID
+
+  PrivateSubnet2ID:
+    Value: !Ref PrivateSubnet2
+    Export:
+      Name: PrivateSubnet2-ID
+
+  MyVPCS3EndpointID:
+    Value: !Ref MyVPCS3Endpoint
+    Export:
+      Name: MyVPCENDpoint-ID

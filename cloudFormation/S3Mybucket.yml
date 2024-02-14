@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFormation S3
+
+Resources:
+#-----------------------------------------------#
+#S3                                             #
+#-----------------------------------------------#
+  S3bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: cfnbuckets3bucket
+      AccessControl: Private
+      VersioningConfiguration:
+        Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      
+#-----------------------------------------------#
+#Outputs                                        #
+#-----------------------------------------------#
+Outputs:
+ S3bucketID:
+   Value: !Ref S3bucket
+   Export:
+      Name: MyS3bucket-ID
