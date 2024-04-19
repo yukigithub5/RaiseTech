@@ -7,8 +7,9 @@
 * 良い質問と回答ピックアップ  
 * TerraForm ハンズオン  
 ## 課題内容  
-* sample‗server_spec_rbを成功させる
-* カスタマイズ内容  
+* sample‗server_spec_rbを成功させる  
+
+## カスタマイズ内容
 1. gitがインストールされているか？
 2. rubyのversion確認  
 3. nginxのスタートアップ登録の確認  
