@@ -5,14 +5,13 @@
 * テスト駆動開発  
 * ServerSpec  
 * 良い質問と回答ピックアップ  
-* TerraForm ハンズオン  
+* Terraform ハンズオン  
 ## 課題内容  
 * sample‗server_spec_rbを成功させる  
-
 ## カスタマイズ内容
 1. gitがインストールされているか？
 2. rubyのversion確認  
-3. nginxのスタートアップ登録の確認  
+3. nginxのサービス自動起動設定の確認
 ## sample_spec.rb詳細  
 ![server_spec_rb](IMG/sample_spec_rb.png)  
 ## port番号NG  8080
